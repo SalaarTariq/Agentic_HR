@@ -1,0 +1,31 @@
+[
+  {
+    "id": "POS-001",
+    "title": "Backend Engineer",
+    "department": "Engineering",
+    "hiring_manager": "Bob Williams",
+    "status": "open",
+    "candidates": [
+      {"name": "John Doe", "stage": "technical_interview", "rating": 4},
+      {"name": "Jane Smith", "stage": "hr_screening", "rating": 3}
+    ]
+  },
+  {
+    "id": "POS-002",
+    "title": "Product Designer",
+    "department": "Design",
+    "hiring_manager": "Fiona Davis",
+    "status": "open",
+    "candidates": [
+      {"name": "Mike Lee", "stage": "portfolio_review", "rating": 5}
+    ]
+  },
+  {
+    "id": "POS-003",
+    "title": "Data Analyst",
+    "department": "Marketing",
+    "hiring_manager": "Fiona Davis",
+    "status": "closed",
+    "candidates": []
+  }
+]
