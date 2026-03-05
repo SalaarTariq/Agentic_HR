@@ -1,0 +1,62 @@
+[
+  {
+    "id": "EMP-001",
+    "name": "Alice Johnson",
+    "email": "alice.johnson@company.com",
+    "department": "Engineering",
+    "role": "Senior Software Engineer",
+    "joining_date": "2021-03-15",
+    "manager": "Bob Williams",
+    "status": "active"
+  },
+  {
+    "id": "EMP-002",
+    "name": "Bob Williams",
+    "email": "bob.williams@company.com",
+    "department": "Engineering",
+    "role": "Engineering Manager",
+    "joining_date": "2019-07-01",
+    "manager": "Diana Chen",
+    "status": "active"
+  },
+  {
+    "id": "EMP-003",
+    "name": "Carol Martinez",
+    "email": "carol.martinez@company.com",
+    "department": "Human Resources",
+    "role": "HR Specialist",
+    "joining_date": "2022-01-10",
+    "manager": "Diana Chen",
+    "status": "active"
+  },
+  {
+    "id": "EMP-004",
+    "name": "Diana Chen",
+    "email": "diana.chen@company.com",
+    "department": "Human Resources",
+    "role": "VP of People",
+    "joining_date": "2018-05-20",
+    "manager": null,
+    "status": "active"
+  },
+  {
+    "id": "EMP-005",
+    "name": "Ethan Brown",
+    "email": "ethan.brown@company.com",
+    "department": "Marketing",
+    "role": "Marketing Analyst",
+    "joining_date": "2023-06-01",
+    "manager": "Fiona Davis",
+    "status": "active"
+  },
+  {
+    "id": "EMP-006",
+    "name": "Fiona Davis",
+    "email": "fiona.davis@company.com",
+    "department": "Marketing",
+    "role": "Marketing Director",
+    "joining_date": "2020-11-15",
+    "manager": null,
+    "status": "active"
+  }
+]
