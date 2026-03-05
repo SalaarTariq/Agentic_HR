@@ -1,0 +1,27 @@
+[
+  {
+    "id": "POL-001",
+    "title": "Annual Leave Policy",
+    "content": "All full-time employees are entitled to 20 days of paid annual leave per calendar year. Leave must be requested at least 5 business days in advance through the HR portal. Unused leave up to 5 days may be carried forward to the next year. Leave beyond 5 consecutive days requires manager approval."
+  },
+  {
+    "id": "POL-002",
+    "title": "Sick Leave Policy",
+    "content": "Employees are entitled to 12 days of paid sick leave per year. A medical certificate is required for absences exceeding 2 consecutive days. Sick leave cannot be carried forward or encashed."
+  },
+  {
+    "id": "POL-003",
+    "title": "Remote Work Policy",
+    "content": "Employees may work remotely up to 3 days per week with manager approval. A stable internet connection and a dedicated workspace are required. Core hours (10 AM – 4 PM) must be observed for availability. Fully remote arrangements require VP-level approval."
+  },
+  {
+    "id": "POL-004",
+    "title": "Code of Conduct",
+    "content": "All employees must maintain professional behaviour. Harassment, discrimination, and bullying are strictly prohibited and will result in disciplinary action up to and including termination. Employees must report violations to HR immediately."
+  },
+  {
+    "id": "POL-005",
+    "title": "Benefits Policy",
+    "content": "Full-time employees receive health insurance (employee + dependents), dental coverage, a monthly wellness allowance of $100, and an annual learning budget of $1,500. Benefits are effective from the date of joining."
+  }
+]
