@@ -1,0 +1,11 @@
+[project]
+name = "agentic-hr"
+version = "0.1.0"
+description = "Agentic HR System — a decision-making and task-routing backend for HR operations"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "google-genai>=1.0.0",
+    "pydantic>=2.0.0",
+    "python-dotenv>=1.0.0",
+]
