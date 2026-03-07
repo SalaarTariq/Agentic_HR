@@ -1,0 +1,16 @@
+{
+  "id": "5f9954f282cd",
+  "title": "Test message",
+  "created_at": "2026-03-07T17:08:04.030593+00:00",
+  "updated_at": "2026-03-07T17:08:06.845513+00:00",
+  "messages": [
+    {
+      "timestamp": "2026-03-07T17:08:06.845513+00:00",
+      "role": "user",
+      "content": "Test message",
+      "metadata": {
+        "test": "metadata"
+      }
+    }
+  ]
+}

@@ -11,6 +11,7 @@ from agents.recruitment_agent import RecruitmentAgent
 from agents.grievance_agent import GrievanceAgent
 from tools.llm_client import chat
 from tools.memory_tools import save_memory, get_recent_memory
+from tools.session_tools import get_recent_session_messages
 from tools.logger import get_logger
 from config.settings import settings
 
@@ -34,9 +35,12 @@ class Orchestrator:
 
     # ── classification ──────────────────────────────────────────────
 
-    def _classify(self, user_message: str) -> dict:
+    def _classify(self, user_message: str, session_id: str | None = None) -> dict:
         """Use the LLM to classify the user's intent."""
-        recent = get_recent_memory(5)
+        if session_id:
+            recent = get_recent_session_messages(session_id, 5)
+        else:
+            recent = get_recent_memory(5)
         history_text = ""
         if recent:
             history_text = "Recent conversation:\n" + "\n".join(
@@ -68,12 +72,12 @@ class Orchestrator:
 
     # ── routing ─────────────────────────────────────────────────────
 
-    def handle(self, user_message: str) -> str:
+    def handle(self, user_message: str, session_id: str | None = None) -> str:
         """Main entry: classify, route, remember."""
         self.logger.info("Received: %s", user_message[:120])
         save_memory("user", user_message)
 
-        classification = self._classify(user_message)
+        classification = self._classify(user_message, session_id=session_id)
         intent = classification.get("intent", "out_of_scope")
         confidence = classification.get("confidence", 0.0)
         self.logger.info("Intent: %s (%.2f)", intent, confidence)

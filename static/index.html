@@ -522,7 +522,165 @@
     padding: 0 0 12px;
   }
 
+  /* ─── Layout ─── */
+  .app-body {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+  }
+
+  /* ─── Sidebar ─── */
+  .sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sidebar-header {
+    padding: 16px;
+    flex-shrink: 0;
+  }
+
+  .new-chat-btn {
+    width: 100%;
+    padding: 10px 16px;
+    background: var(--gradient);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(108, 92, 231, 0.3);
+  }
+
+  .new-chat-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(108, 92, 231, 0.4); }
+
+  .session-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 8px 16px;
+  }
+
+  .session-item {
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+    position: relative;
+  }
+
+  .session-item:hover { background: var(--surface-hover); }
+  .session-item.active { background: var(--gradient-subtle); border: 1px solid var(--chip-border); }
+
+  .session-item-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .session-item-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .session-item-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .session-delete-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    opacity: 0;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+
+  .session-item:hover .session-delete-btn { opacity: 1; }
+  .session-delete-btn:hover { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+
+  .session-empty {
+    text-align: center;
+    padding: 32px 16px;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  /* ─── Main content area ─── */
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  /* ─── Hamburger ─── */
+  .hamburger-btn {
+    display: none;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: 8px;
+  }
+
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 99;
+  }
+
+  .sidebar-overlay.visible { display: block; }
+
   /* ─── Responsive ─── */
+  @media (max-width: 768px) {
+    .hamburger-btn { display: flex; }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -280px;
+      height: 100%;
+      z-index: 100;
+      transition: left 0.25s ease;
+      box-shadow: var(--shadow-lg);
+    }
+    .sidebar.open { left: 0; }
+  }
+
   @media (max-width: 640px) {
     .header-inner { padding: 12px 16px; }
     .header-info h1 { font-size: 15px; }
@@ -545,6 +703,9 @@
 <header>
   <div class="header-inner">
     <div class="header-left">
+      <button class="hamburger-btn" id="hamburger-btn" title="Toggle sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
       <div class="header-logo">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
@@ -568,6 +729,23 @@
     </div>
   </div>
 </header>
+
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<div class="app-body">
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <button class="new-chat-btn" id="new-chat-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      New Chat
+    </button>
+  </div>
+  <div class="session-list" id="session-list">
+    <div class="session-empty">No conversations yet</div>
+  </div>
+</aside>
+
+<main class="main-content">
 
 <div id="chat-container">
   <!-- Welcome card shown by default -->
@@ -643,6 +821,9 @@
 
 <div class="powered-by">Powered by Agentic HR System</div>
 
+</main>
+</div><!-- .app-body -->
+
 <script>
 (function() {
   const chatContainer = document.getElementById("chat-container");
@@ -652,9 +833,15 @@
   const themeBtn = document.getElementById("theme-toggle");
   const themeLabel = document.getElementById("theme-label");
   const themeIcon = document.getElementById("theme-icon");
-  const welcome = document.getElementById("welcome");
+  const sessionListEl = document.getElementById("session-list");
+  const newChatBtn = document.getElementById("new-chat-btn");
+  const sidebar = document.getElementById("sidebar");
+  const hamburgerBtn = document.getElementById("hamburger-btn");
+  const sidebarOverlay = document.getElementById("sidebar-overlay");
+
   let busy = false;
   let hasMessages = false;
+  let currentSessionId = null;
 
   // ─── Theme ───
   const sunPath = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
@@ -683,11 +870,63 @@
   });
 
   // ─── Helpers ───
-  function getTimeStr() {
-    return new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  function getTimeStr(isoStr) {
+    const d = isoStr ? new Date(isoStr) : new Date();
+    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  }
+
+  function formatDate(isoStr) {
+    const d = new Date(isoStr);
+    const now = new Date();
+    const diff = now - d;
+    if (diff < 86400000) return "Today";
+    if (diff < 172800000) return "Yesterday";
+    return d.toLocaleDateString([], { month: "short", day: "numeric" });
+  }
+
+  function showWelcome() {
+    let welcome = document.getElementById("welcome");
+    if (!welcome) {
+      welcome = document.createElement("div");
+      welcome.className = "welcome-card";
+      welcome.id = "welcome";
+      welcome.innerHTML = `
+        <div class="welcome-icon">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <h2>How can I help you today?</h2>
+        <p>I'm your AI-powered HR assistant. Ask me about company policies, employee info, open positions, or file a grievance.</p>
+        <div class="welcome-features">
+          <div class="feature-card" data-msg="What is the leave policy?">
+            <div class="fc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            <h4>Company Policies</h4><span>Leave, remote work, benefits</span>
+          </div>
+          <div class="feature-card" data-msg="Who is Alice Johnson?">
+            <div class="fc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <h4>Employee Lookup</h4><span>Search people & teams</span>
+          </div>
+          <div class="feature-card" data-msg="What open positions are available?">
+            <div class="fc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+            <h4>Recruitment</h4><span>Open roles & applications</span>
+          </div>
+          <div class="feature-card" data-msg="I want to file a grievance">
+            <div class="fc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>
+            <h4>Grievances</h4><span>Report & track issues</span>
+          </div>
+        </div>`;
+      chatContainer.prepend(welcome);
+      // Re-bind feature card clicks
+      welcome.querySelectorAll(".feature-card").forEach(el => {
+        el.addEventListener("click", () => { if (el.dataset.msg) send(el.dataset.msg); });
+      });
+    }
+    hasMessages = false;
   }
 
   function hideWelcome() {
+    const welcome = document.getElementById("welcome");
     if (welcome && welcome.parentNode) {
       welcome.style.transition = "opacity 0.25s";
       welcome.style.opacity = "0";
@@ -695,7 +934,12 @@
     }
   }
 
-  function addMessage(text, role) {
+  function clearChat() {
+    chatContainer.innerHTML = "";
+    hasMessages = false;
+  }
+
+  function addMessage(text, role, timestamp) {
     if (!hasMessages) { hideWelcome(); hasMessages = true; }
 
     const row = document.createElement("div");
@@ -718,7 +962,7 @@
 
     const time = document.createElement("div");
     time.className = "msg-time";
-    time.textContent = getTimeStr();
+    time.textContent = getTimeStr(timestamp);
 
     content.appendChild(bubble);
     content.appendChild(time);
@@ -726,6 +970,125 @@
     row.appendChild(content);
     chatContainer.appendChild(row);
     chatContainer.scrollTop = chatContainer.scrollHeight;
+  }
+
+  // ─── Sidebar ───
+  function toggleSidebar() {
+    sidebar.classList.toggle("open");
+    sidebarOverlay.classList.toggle("visible");
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("visible");
+  }
+
+  hamburgerBtn.addEventListener("click", toggleSidebar);
+  sidebarOverlay.addEventListener("click", closeSidebar);
+
+  async function loadSessions() {
+    try {
+      const res = await fetch("/api/sessions");
+      const sessions = await res.json();
+      if (sessions.length === 0) {
+        sessionListEl.innerHTML = '<div class="session-empty">No conversations yet</div>';
+        return sessions;
+      }
+      sessionListEl.innerHTML = "";
+      sessions.forEach(s => {
+        const item = document.createElement("div");
+        item.className = "session-item" + (s.id === currentSessionId ? " active" : "");
+        item.innerHTML = `
+          <div class="session-item-content">
+            <div class="session-item-title">${escapeHtml(s.title)}</div>
+            <div class="session-item-meta">${formatDate(s.updated_at)} · ${s.message_count} msg${s.message_count !== 1 ? "s" : ""}</div>
+          </div>
+          <button class="session-delete-btn" title="Delete">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>`;
+        item.querySelector(".session-item-content").addEventListener("click", () => switchSession(s.id));
+        item.querySelector(".session-item-content").addEventListener("dblclick", (e) => {
+          e.stopPropagation();
+          renameSession(s.id, s.title);
+        });
+        item.querySelector(".session-delete-btn").addEventListener("click", (e) => {
+          e.stopPropagation();
+          deleteSession(s.id);
+        });
+        sessionListEl.appendChild(item);
+      });
+      return sessions;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function escapeHtml(str) {
+    const d = document.createElement("div");
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  async function switchSession(id) {
+    if (id === currentSessionId) return;
+    try {
+      const res = await fetch("/api/sessions/" + id);
+      if (!res.ok) return;
+      const session = await res.json();
+      currentSessionId = id;
+      clearChat();
+      if (session.messages && session.messages.length > 0) {
+        session.messages.forEach(m => {
+          if (m.role === "user" || m.role === "assistant") {
+            addMessage(m.content, m.role, m.timestamp);
+          }
+        });
+      } else {
+        showWelcome();
+      }
+      // Update active highlight
+      sessionListEl.querySelectorAll(".session-item").forEach(el => el.classList.remove("active"));
+      const items = sessionListEl.querySelectorAll(".session-item");
+      // Re-fetch to update active state cleanly
+      await loadSessions();
+      closeSidebar();
+    } catch (e) {}
+  }
+
+  function createNewSession() {
+    currentSessionId = null;
+    clearChat();
+    showWelcome();
+    // Update active state
+    sessionListEl.querySelectorAll(".session-item").forEach(el => el.classList.remove("active"));
+    closeSidebar();
+    input.focus();
+  }
+
+  newChatBtn.addEventListener("click", createNewSession);
+
+  async function deleteSession(id) {
+    if (!confirm("Delete this conversation?")) return;
+    try {
+      await fetch("/api/sessions/" + id, { method: "DELETE" });
+      if (id === currentSessionId) {
+        createNewSession();
+      }
+      await loadSessions();
+    } catch (e) {}
+  }
+
+  async function renameSession(id, currentTitle) {
+    const newTitle = prompt("Rename conversation:", currentTitle);
+    if (!newTitle || newTitle === currentTitle) return;
+    try {
+      await fetch("/api/sessions/" + id, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: newTitle }),
+      });
+      await loadSessions();
+    } catch (e) {}
   }
 
   // ─── Send ───
@@ -741,13 +1104,22 @@
     chatContainer.scrollTop = chatContainer.scrollHeight;
 
     try {
+      const body = { message: text };
+      if (currentSessionId) body.session_id = currentSessionId;
+
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text }),
+        body: JSON.stringify(body),
       });
       const data = await res.json();
       addMessage(data.response, "assistant");
+
+      // Capture session id from response (auto-created on first message)
+      if (data.session_id) {
+        currentSessionId = data.session_id;
+      }
+      await loadSessions();
     } catch (e) {
       addMessage("Sorry, something went wrong. Please try again.", "assistant");
     } finally {
@@ -775,26 +1147,16 @@
     });
   });
 
-  // ─── Load History ───
-  async function loadHistory() {
-    try {
-      const res = await fetch("/api/history");
-      const history = await res.json();
-      if (history.length === 0) return;
-      hideWelcome();
-      hasMessages = true;
-      history.forEach((entry) => {
-        if (entry.role === "user" || entry.role === "assistant") {
-          addMessage(entry.content, entry.role);
-        }
-      });
-    } catch (e) {
-      // History unavailable
+  // ─── Init: Load sessions, auto-select most recent ───
+  async function init() {
+    const sessions = await loadSessions();
+    if (sessions.length > 0) {
+      await switchSession(sessions[0].id);
     }
+    input.focus();
   }
 
-  loadHistory();
-  input.focus();
+  init();
 })();
 </script>
 

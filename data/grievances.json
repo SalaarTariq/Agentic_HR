@@ -1,1 +1,29 @@
-[]
+[
+  {
+    "id": "GRV-400777",
+    "employee_id": "EMP-001",
+    "category": "harassment",
+    "description": "Someone is being rude",
+    "status": "open",
+    "filed_at": "2026-03-07T17:08:52.545714+00:00",
+    "escalated": true
+  },
+  {
+    "id": "GRV-648850",
+    "employee_id": "EMP-002",
+    "category": "general",
+    "description": "General complaint",
+    "status": "open",
+    "filed_at": "2026-03-07T17:08:52.546209+00:00",
+    "escalated": false
+  },
+  {
+    "id": "GRV-C00CE4",
+    "employee_id": "EMP-001",
+    "category": "general",
+    "description": "test",
+    "status": "open",
+    "filed_at": "2026-03-07T17:09:15.002343+00:00",
+    "escalated": false
+  }
+]
