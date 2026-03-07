@@ -1,0 +1,18 @@
+{
+  "id": "fb551f9119ec",
+  "title": "What open positions are available?",
+  "created_at": "2026-03-07T17:09:35.321925+00:00",
+  "updated_at": "2026-03-07T17:12:08.616907+00:00",
+  "messages": [
+    {
+      "timestamp": "2026-03-07T17:12:08.616275+00:00",
+      "role": "user",
+      "content": "What open positions are available?"
+    },
+    {
+      "timestamp": "2026-03-07T17:12:08.616907+00:00",
+      "role": "assistant",
+      "content": "Here are the open positions currently available:\n\n*   **Backend Engineer** (ID: POS-001)\n*   **Product Designer** (ID: POS-002)"
+    }
+  ]
+}
