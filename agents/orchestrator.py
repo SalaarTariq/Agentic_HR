@@ -70,6 +70,31 @@ class Orchestrator:
                 "clarification_question": None,
             }
 
+    # ── general chat ─────────────────────────────────────────────────
+
+    _GENERAL_CHAT_PROMPT = (
+        "You are a friendly, warm HR assistant chatbot. "
+        "Respond naturally to the user's message — greetings, small talk, "
+        "emotional expressions, thank-yous, or general questions about what you can do. "
+        "Be empathetic and supportive. If the user seems stressed or upset, "
+        "acknowledge their feelings and gently remind them you're here to help with HR needs. "
+        "Keep responses concise (2-3 sentences). "
+        "You can help with: company policies, employee information, recruitment, and grievances."
+    )
+
+    def _handle_general_chat(self, user_message: str, session_id: str | None = None) -> str:
+        """Handle greetings, small talk, and general conversational messages."""
+        if session_id:
+            recent = get_recent_session_messages(session_id, 5)
+        else:
+            recent = get_recent_memory(5)
+
+        history = []
+        if recent:
+            history = [{"role": m["role"], "content": m["content"]} for m in recent]
+
+        return chat(self._GENERAL_CHAT_PROMPT, user_message, history=history)
+
     # ── routing ─────────────────────────────────────────────────────
 
     def handle(self, user_message: str, session_id: str | None = None) -> str:
@@ -88,8 +113,13 @@ class Orchestrator:
             save_memory("assistant", question, {"intent": "clarification"})
             return question
 
+        if intent == "general_chat":
+            response = self._handle_general_chat(user_message, session_id)
+            save_memory("assistant", response, {"intent": "general_chat"})
+            return response
+
         if intent == "out_of_scope":
-            msg = "I'm sorry, I can only help with HR-related requests such as policies, employee information, recruitment, or grievances."
+            msg = "I'm sorry, that falls outside what I can help with. I'm your HR assistant — I can help with company policies, employee information, recruitment, or grievances. How can I assist you today?"
             save_memory("assistant", msg, {"intent": "out_of_scope"})
             return msg
 
