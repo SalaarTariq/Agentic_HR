@@ -7,13 +7,14 @@ import json
 from agents.base_agent import BaseAgent
 from tools.grievance_tools import file_grievance
 from tools.llm_client import chat
+from tools.session_tools import get_recent_session_messages
 
 
 class GrievanceAgent(BaseAgent):
     name = "grievance"
     prompt_file = "grievance_agent.txt"
 
-    def handle(self, user_message: str) -> str:
+    def handle(self, user_message: str, session_id: str | None = None) -> str:
         # Ask the LLM to extract structured grievance info
         extraction_prompt = (
             "Extract the following from the user message as JSON: "
@@ -30,12 +31,14 @@ class GrievanceAgent(BaseAgent):
                 category=data.get("category", "general"),
                 description=data.get("description", user_message),
             )
+            history = get_recent_session_messages(session_id, 10) if session_id else None
             return self.run(
                 user_message,
                 context_data={
                     "grievance_filed": record,
                     "message": "Grievance has been recorded successfully.",
                 },
+                history=history,
             )
         except (json.JSONDecodeError, KeyError):
             # Fallback: file with raw description
@@ -44,10 +47,12 @@ class GrievanceAgent(BaseAgent):
                 category="general",
                 description=user_message,
             )
+            history = get_recent_session_messages(session_id, 10) if session_id else None
             return self.run(
                 user_message,
                 context_data={
                     "grievance_filed": record,
                     "message": "Grievance recorded (some details may need follow-up).",
                 },
+                history=history,
             )
