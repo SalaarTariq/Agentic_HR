@@ -32,7 +32,12 @@ class BaseAgent:
             return data
         return json.dumps(data, indent=2)
 
-    def run(self, user_message: str, context_data: dict | list | str = "") -> str:
+    def run(
+        self,
+        user_message: str,
+        context_data: dict | list | str = "",
+        history: list[dict] | None = None,
+    ) -> str:
         """Run the agent: gather context, call LLM, return answer."""
         context = self._build_context(context_data)
         augmented_message = user_message
@@ -41,6 +46,6 @@ class BaseAgent:
                 f"Relevant data:\n```json\n{context}\n```\n\nUser request: {user_message}"
             )
         self.logger.info("Running with message: %s", user_message[:120])
-        response = chat(self._system_prompt, augmented_message)
+        response = chat(self._system_prompt, augmented_message, history=history)
         self.logger.info("Response length: %d chars", len(response))
         return response
