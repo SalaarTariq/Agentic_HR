@@ -97,8 +97,19 @@ class Orchestrator:
 
     # ── routing ─────────────────────────────────────────────────────
 
-    def handle(self, user_message: str, session_id: str | None = None) -> str:
-        """Main entry: classify, route, remember."""
+    # Map intent names to user-friendly agent labels
+    _AGENT_LABELS = {
+        "policy": "Policy",
+        "employee_data": "Employee",
+        "recruitment": "Recruitment",
+        "grievance": "Grievance",
+        "general_chat": "General",
+        "clarification": "Clarification",
+        "out_of_scope": "General",
+    }
+
+    def handle(self, user_message: str, session_id: str | None = None) -> dict:
+        """Main entry: classify, route, remember. Returns dict with response + metadata."""
         self.logger.info("Received: %s", user_message[:120])
         save_memory("user", user_message)
 
@@ -107,30 +118,32 @@ class Orchestrator:
         confidence = classification.get("confidence", 0.0)
         self.logger.info("Intent: %s (%.2f)", intent, confidence)
 
+        agent_label = self._AGENT_LABELS.get(intent, "General")
+
         # Handle non-routable intents
         if intent == "clarification":
             question = classification.get("clarification_question", "Could you please clarify your request?")
             save_memory("assistant", question, {"intent": "clarification"})
-            return question
+            return {"response": question, "intent": intent, "agent": agent_label}
 
         if intent == "general_chat":
             response = self._handle_general_chat(user_message, session_id)
             save_memory("assistant", response, {"intent": "general_chat"})
-            return response
+            return {"response": response, "intent": intent, "agent": agent_label}
 
         if intent == "out_of_scope":
             msg = "I'm sorry, that falls outside what I can help with. I'm your HR assistant — I can help with company policies, employee information, recruitment, or grievances. How can I assist you today?"
             save_memory("assistant", msg, {"intent": "out_of_scope"})
-            return msg
+            return {"response": msg, "intent": intent, "agent": agent_label}
 
         # Route to specialist
         agent = self._agents.get(intent)
         if agent is None:
             msg = f"I identified your request as '{intent}' but don't have a specialist for that yet."
             save_memory("assistant", msg, {"intent": intent})
-            return msg
+            return {"response": msg, "intent": intent, "agent": agent_label}
 
         self.logger.info("Routing to %s agent", intent)
-        response = agent.handle(user_message)
+        response = agent.handle(user_message, session_id=session_id)
         save_memory("assistant", response, {"intent": intent, "confidence": confidence})
-        return response
+        return {"response": response, "intent": intent, "agent": agent_label}
