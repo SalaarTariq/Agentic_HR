@@ -44,6 +44,8 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     response: str
     session_id: str
+    intent: str = ""
+    agent: str = ""
 
 
 class RenameRequest(BaseModel):
@@ -68,13 +70,18 @@ async def chat(req: ChatRequest):
     # Process through orchestrator — it will read session history for context
     # Do NOT save user message to session before this, to avoid the LLM
     # seeing the current message twice (once in history, once as new message).
-    response = orchestrator.handle(req.message, session_id=session_id)
+    result = orchestrator.handle(req.message, session_id=session_id)
 
     # Now save both messages to the session
     add_message_to_session(session_id, "user", req.message)
-    add_message_to_session(session_id, "assistant", response)
+    add_message_to_session(session_id, "assistant", result["response"])
 
-    return ChatResponse(response=response, session_id=session_id)
+    return ChatResponse(
+        response=result["response"],
+        session_id=session_id,
+        intent=result.get("intent", ""),
+        agent=result.get("agent", ""),
+    )
 
 
 @app.get("/api/history")
