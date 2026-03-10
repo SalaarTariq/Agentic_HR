@@ -38,9 +38,12 @@ def chat(
         temperature=temperature if temperature is not None else settings.temperature,
     )
 
-    response = client.models.generate_content(
-        model=settings.model_name,
-        contents=contents,
-        config=config,
-    )
-    return response.text or ""
+    try:
+        response = client.models.generate_content(
+            model=settings.model_name,
+            contents=contents,
+            config=config,
+        )
+        return response.text or ""
+    except Exception as e:
+        return f"I'm sorry, I encountered an error processing your request. Please try again. ({type(e).__name__})"
