@@ -32,8 +32,8 @@ def main() -> None:
             print("Goodbye!")
             break
 
-        response = orchestrator.handle(user_input)
-        print(f"\n[HR Assistant] {response}")
+        result = orchestrator.handle(user_input)
+        print(f"\n[HR Assistant] {result['response']}")
 
 
 if __name__ == "__main__":
