@@ -60,6 +60,10 @@ def search_policies(query: str) -> list[dict]:
         return sum(1 for kw in expanded if kw in text)
 
     scored = [(p, _score(p)) for p in policies]
-    results = [p for p, s in scored if s > 0]
-    results.sort(key=lambda p: next(s for pp, s in scored if pp is p), reverse=True)
-    return results if results else [{"message": f"No policies found matching '{query}'."}]
+    results = sorted(
+        [(p, s) for p, s in scored if s > 0],
+        key=lambda pair: pair[1],
+        reverse=True,
+    )
+    matched = [p for p, _ in results]
+    return matched if matched else [{"message": f"No policies found matching '{query}'."}]
