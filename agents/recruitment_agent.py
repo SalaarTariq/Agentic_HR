@@ -13,5 +13,12 @@ class RecruitmentAgent(BaseAgent):
 
     def handle(self, user_message: str, session_id: str | None = None) -> str:
         history = get_recent_session_messages(session_id, 10) if session_id else None
-        positions = get_open_positions(status="open")
+        msg_lower = user_message.lower()
+        if "closed" in msg_lower:
+            status = "closed"
+        elif "all" in msg_lower:
+            status = "all"
+        else:
+            status = "open"
+        positions = get_open_positions(status=status)
         return self.run(user_message, context_data=positions, history=history)
