@@ -57,8 +57,12 @@ def lookup_employee(query: str) -> dict | list[dict]:
             return sum(1 for t in tokens if t in name_lower)
 
         scored = [(e, _score(e)) for e in employees]
-        results = [e for e, s in scored if s > 0]
-        results.sort(key=lambda e: next(s for ee, s in scored if ee is e), reverse=True)
+        ranked = sorted(
+            [(e, s) for e, s in scored if s > 0],
+            key=lambda pair: pair[1],
+            reverse=True,
+        )
+        results = [e for e, _ in ranked]
         if results:
             return results[0] if len(results) == 1 else results
 
