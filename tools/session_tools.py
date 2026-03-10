@@ -4,11 +4,14 @@ from __future__ import annotations
 
 import json
 import re
+import threading
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
 from config.settings import settings
+
+_lock = threading.Lock()
 
 _SESSIONS_DIR = settings.memory_dir / "sessions"
 _ID_PATTERN = re.compile(r"^[a-f0-9]{12}$")
@@ -86,20 +89,21 @@ def add_message_to_session(
     session_id: str, role: str, content: str, metadata: dict | None = None
 ) -> dict | None:
     """Append a message to the session. Returns updated session or None."""
-    session = get_session(session_id)
-    if session is None:
-        return None
-    now = datetime.now(timezone.utc).isoformat()
-    entry = {"timestamp": now, "role": role, "content": content}
-    if metadata:
-        entry["metadata"] = metadata
-    session["messages"].append(entry)
-    session["updated_at"] = now
-    # Auto-title from first user message
-    if role == "user" and session["title"] == "New Chat":
-        session["title"] = content[:50].strip()
-    _write_session(_session_path(session_id), session)
-    return session
+    with _lock:
+        session = get_session(session_id)
+        if session is None:
+            return None
+        now = datetime.now(timezone.utc).isoformat()
+        entry = {"timestamp": now, "role": role, "content": content}
+        if metadata:
+            entry["metadata"] = metadata
+        session["messages"].append(entry)
+        session["updated_at"] = now
+        # Auto-title from first user message
+        if role == "user" and session["title"] == "New Chat":
+            session["title"] = content[:50].strip()
+        _write_session(_session_path(session_id), session)
+        return session
 
 
 def delete_session(session_id: str) -> bool:
