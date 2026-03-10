@@ -25,7 +25,11 @@ class GrievanceAgent(BaseAgent):
         raw = chat(extraction_prompt, user_message)
 
         try:
-            data = json.loads(raw)
+            cleaned = raw.strip()
+            if cleaned.startswith("```"):
+                cleaned = cleaned.split("\n", 1)[1]
+                cleaned = cleaned.rsplit("```", 1)[0]
+            data = json.loads(cleaned)
             record = file_grievance(
                 employee_id=data.get("employee_id", "unknown"),
                 category=data.get("category", "general"),
