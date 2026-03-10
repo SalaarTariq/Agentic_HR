@@ -59,6 +59,10 @@ async def index():
 
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
+    if not req.message.strip():
+        raise HTTPException(status_code=400, detail="Message cannot be empty")
+    if len(req.message) > 5000:
+        raise HTTPException(status_code=400, detail="Message too long (max 5000 characters)")
     # Create or use existing session
     session_id = req.session_id
     if not session_id:
