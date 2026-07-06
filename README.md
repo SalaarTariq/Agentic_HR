@@ -1,6 +1,6 @@
 # Agentic HR System
 
-A decision-making and task-routing backend for HR operations. The system behaves like a digital HR employee: it understands requests, classifies them, delegates to specialist agents, and remembers context.
+A decision-making and task-routing backend for HR operations. The system behaves like a digital HR employee: it understands requests, classifies them, delegates to specialist agents, and remembers prior context.
 
 ## Architecture
 
@@ -82,3 +82,7 @@ employees are entitled to 20 days of paid annual leave per calendar year...
 [You] > I want to file a complaint about my workspace conditions
 [HR Assistant] I've recorded your grievance (GRV-XXXXXX). Our team will review it...
 ```
+
+## Notes
+
+This README was refreshed for clarity and onboarding, while preserving the original project intent and usage flow.
