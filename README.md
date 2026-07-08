@@ -34,7 +34,7 @@ pip install -e .
 
 # 3. Configure API key
 cp .env.example .env
-# Edit .env with your OpenAI API key
+# Edit .env with your Gemini API key
 
 # 4. Run
 python main.py
