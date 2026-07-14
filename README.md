@@ -1,6 +1,6 @@
 # Agentic HR System
 
-A decision-making and task-routing backend for HR operations. The system behaves like a digital HR employee: it understands requests, classifies them, delegates to specialist agents, and remembers context.
+A decision-making and task-routing backend for HR operations. The system behaves like a digital HR employee: it understands requests, classifies them, delegates to specialist agents, and remembers [...]
 
 ## Architecture
 
@@ -89,3 +89,6 @@ This README was refreshed for clarity and onboarding, while preserving the origi
 
 ### Small update (July 11, 2026)
 Added this dated note section to reflect a minor documentation touch-up.
+
+### Small update (July 14, 2026)
+Minor README edit committed as requested.
