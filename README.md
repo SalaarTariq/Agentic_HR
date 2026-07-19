@@ -1,97 +1,70 @@
-# Agentic HR System
+# Agentic_HR
 
-A decision-making and task-routing backend for HR operations. The system behaves like a digital HR employee: it understands requests, classifies them, delegates to specialist agents, and remembers context between turns.
+**Agentic_HR** is a human resources project that combines a simple web interface with Python-powered logic.
 
-## Architecture
+## 🚀 Overview
 
-```
-User Request
-     │
-     ▼
-┌─────────────┐
-│ Orchestrator │  ← classifies intent (policy / employee_data / recruitment / grievance)
-└──────┬──────┘
-       │
-  ┌────┴────┬────────────┬──────────────┐
-  ▼         ▼            ▼              ▼
-Policy   Employee    Recruitment    Grievance
-Agent    Data Agent    Agent          Agent
-  │         │            │              │
-  ▼         ▼            ▼              ▼
-Tools    Tools         Tools          Tools
-(policies) (employees) (positions)  (grievances)
-```
+This repository appears to be focused on building HR-related workflows using:
 
-## Setup
+- **HTML** for interface and structure
+- **Python** for processing, automation, or backend functionality
+
+## 🎯 Project Vision
+
+The goal of this project is to create an HR solution that can evolve into a practical assistant for common tasks such as:
+
+- Candidate data handling
+- Employee information management
+- Workflow automation
+- Reporting support
+
+## 🧱 Tech Stack
+
+- HTML
+- Python
+
+## 📂 Suggested Structure
+
+As the project grows, consider organizing files like this:
+
+- `frontend/` for HTML, styling, and client assets
+- `backend/` for Python modules and services
+- `data/` for sample or development datasets
+- `docs/` for feature notes and decisions
+
+## 🛠️ Getting Started
 
 ```bash
-# 1. Create virtual environment
-python -m venv .venv
-source .venv/bin/activate
-
-# 2. Install dependencies
-pip install -e .
-
-# 3. Configure API key
-cp .env.example .env
-# Edit .env with your Gemini API key
-
-# 4. Run
-python main.py
+git clone https://github.com/SalaarTariq/Agentic_HR.git
+cd Agentic_HR
 ```
 
-## Project Structure
+Then:
 
-```
-├── main.py                 # CLI entry point
-├── agents/
-│   ├── orchestrator.py     # Central brain — classifies & routes
-│   ├── base_agent.py       # Shared agent logic
-│   ├── policy_agent.py     # HR policy Q&A
-│   ├── employee_data_agent.py  # Employee lookup
-│   ├── recruitment_agent.py    # Open positions & candidates
-│   └── grievance_agent.py     # File & track grievances
-├── tools/
-│   ├── llm_client.py       # OpenAI API wrapper
-│   ├── logger.py           # Centralised logging
-│   ├── memory_tools.py     # Conversation persistence
-│   ├── policy_tools.py     # Policy search
-│   ├── employee_tools.py   # Employee data access
-│   ├── recruitment_tools.py # Recruitment data
-│   └── grievance_tools.py  # Grievance filing
-├── prompts/                # System prompts per agent
-├── config/                 # Settings & env loading
-├── data/                   # JSON data files (policies, employees, etc.)
-├── memory/                 # Conversation history (runtime)
-└── logs/                   # Application logs (runtime)
-```
+1. Inspect the existing files
+2. Run Python scripts or open the HTML entry points
+3. Add features incrementally with clear commits
 
-## Example Usage
+## 🤝 Contributing
 
-```
-[You] > What is our leave policy?
-[HR Assistant] According to our Annual Leave Policy (POL-001), all full-time
-employees are entitled to 20 days of paid annual leave per calendar year...
+Contributions are welcome:
 
-[You] > Who is Alice Johnson's manager?
-[HR Assistant] Alice Johnson's manager is Bob Williams (Engineering Manager)...
+1. Fork the repository
+2. Create a branch for your change
+3. Commit with clear messages
+4. Open a pull request
 
-[You] > What positions are open right now?
-[HR Assistant] We currently have 2 open positions: Backend Engineer and Product Designer...
+## 📌 Roadmap Ideas
 
-[You] > I want to file a complaint about my workspace conditions
-[HR Assistant] I've recorded your grievance (GRV-XXXXXX). Our team will review it...
-```
+- Add a project architecture diagram
+- Define core HR use-cases in docs
+- Add setup instructions for local environment
+- Introduce tests for Python logic
 
-## Notes
+## 📄 License
 
-This README was refreshed for clarity and onboarding, while preserving the original project intent and usage flow.
+Please add a license (e.g., MIT) to clarify usage and contributions.
 
-### Small update (July 11, 2026)
-Added this dated note section to reflect a minor documentation touch-up.
+---
 
-### Small update (July 14, 2026)
-Minor README edit committed as requested.
-
-### Small update (July 18, 2026)
-Minor README touch-up committed by Copilot at user request.
+Built to grow into a practical HR assistant system.
