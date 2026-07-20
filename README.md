@@ -1,5 +1,3 @@
-# Agentic_HR
-
 **Agentic_HR** is a human resources project that combines a simple web interface with Python-powered logic.
 
 ## 🚀 Overview
